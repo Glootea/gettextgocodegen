@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	en, _ := translations.New("en_US")
-	ru, _ := translations.New("ru_RU")
+	en, _ := translations.New(translations.LocaleEnUS)
+	ru, _ := translations.New(translations.LocaleRuRU)
 
 	fmt.Println("=== English ===")
 	fmt.Println(en.HelloWorld())

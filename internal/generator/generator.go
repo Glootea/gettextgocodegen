@@ -10,9 +10,10 @@ import (
 )
 
 type Generator struct {
-	Package string
-	Dir     string
-	Entries []*parser.POEntry
+	Package   string
+	Dir       string
+	Entries   []*parser.POEntry
+	Languages []string
 }
 
 type Method struct {
@@ -129,10 +130,18 @@ func (g *Generator) render(methods []Method) (string, error) {
 	sb.WriteString("\t\"github.com/leonelquinteros/gotext\"\n")
 	sb.WriteString(")\n\n")
 
+	sb.WriteString("type Locale string\n\n")
+	sb.WriteString("const (\n")
+	sb.WriteString("\tLocaleInvalid Locale = \"\"\n")
+	for _, lang := range g.Languages {
+		fmt.Fprintf(&sb, "\tLocale%s Locale = %q\n", toLocaleName(lang), lang)
+	}
+	sb.WriteString(")\n\n")
+
 	sb.WriteString("type Translator interface {\n")
 	for _, m := range methods {
 		if m.OriginalStr != "" {
-			sb.WriteString(fmt.Sprintf("\t// %q\n", m.OriginalStr))
+			fmt.Fprintf(&sb, "\t// %q\n", m.OriginalStr)
 		}
 		sig := m.Name
 		if len(m.Params) > 0 {
@@ -141,7 +150,7 @@ func (g *Generator) render(methods []Method) (string, error) {
 			sig += "()"
 		}
 		sig += " string"
-		sb.WriteString(fmt.Sprintf("\t%s\n", sig))
+		fmt.Fprintf(&sb, "\t%s\n", sig)
 	}
 	sb.WriteString("}\n\n")
 
@@ -149,25 +158,34 @@ func (g *Generator) render(methods []Method) (string, error) {
 	sb.WriteString("\tlocale *gotext.Locale\n")
 	sb.WriteString("}\n\n")
 
-	sb.WriteString("func New(locale string) (Translator, error) {\n")
+	sb.WriteString("func New(locale Locale) (Translator, error) {\n")
 	sb.WriteString("\t_, file, _, _ := runtime.Caller(0)\n")
 	sb.WriteString("\tlocalesDir := filepath.Dir(file)\n")
-	sb.WriteString("\tl := gotext.NewLocale(localesDir, locale)\n")
+	sb.WriteString("\tl := gotext.NewLocale(localesDir, string(locale))\n")
 	sb.WriteString("\tl.AddDomain(\"default\")\n")
 	sb.WriteString("\treturn &translator{locale: l}, nil\n")
 	sb.WriteString("}\n\n")
 
 	for _, m := range methods {
-		sb.WriteString(fmt.Sprintf("func (t *translator) %s", m.Name))
+		fmt.Fprintf(&sb, "func (t *translator) %s", m.Name)
 		if len(m.Params) > 0 {
 			sb.WriteString("(" + strings.Join(m.Params, ", ") + ")")
 		} else {
 			sb.WriteString("()")
 		}
 		sb.WriteString(" string {\n")
-		sb.WriteString(fmt.Sprintf("\t%s\n", m.Body))
+		fmt.Fprintf(&sb, "\t%s\n", m.Body)
 		sb.WriteString("}\n\n")
 	}
 
 	return sb.String(), nil
+}
+
+func toLocaleName(lang string) string {
+	lang = strings.ReplaceAll(lang, "-", "")
+	lang = strings.ReplaceAll(lang, "_", "")
+	if len(lang) > 0 {
+		return strings.ToUpper(lang[:1]) + lang[1:]
+	}
+	return lang
 }

@@ -59,9 +59,10 @@ func main() {
 	}
 
 	g := &generator.Generator{
-		Package: packageName,
-		Dir:     dirAbs,
-		Entries: defaultEntries,
+		Package:   packageName,
+		Dir:       dirAbs,
+		Entries:   defaultEntries,
+		Languages: languages,
 	}
 
 	code, err := g.Generate()

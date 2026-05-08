@@ -10,6 +10,14 @@ import (
 	"github.com/leonelquinteros/gotext"
 )
 
+type Locale string
+
+const (
+	LocaleInvalid Locale = ""
+	LocaleEnUS Locale = "en_US"
+	LocaleRuRU Locale = "ru_RU"
+)
+
 type Translator interface {
 	// "Cancel"
 	ButtonsCancel() string
@@ -35,10 +43,10 @@ type translator struct {
 	locale *gotext.Locale
 }
 
-func New(locale string) (Translator, error) {
+func New(locale Locale) (Translator, error) {
 	_, file, _, _ := runtime.Caller(0)
 	localesDir := filepath.Dir(file)
-	l := gotext.NewLocale(localesDir, locale)
+	l := gotext.NewLocale(localesDir, string(locale))
 	l.AddDomain("default")
 	return &translator{locale: l}, nil
 }
