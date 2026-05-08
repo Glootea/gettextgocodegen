@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/gettextcodegen/examples/translations"
+	"github.com/Glootea/gettextgocodegen/examples/translations"
 )
 
 func main() {

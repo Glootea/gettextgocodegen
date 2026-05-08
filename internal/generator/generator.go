@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gettextcodegen/internal/parser"
-	"github.com/gettextcodegen/internal/validator"
+	"github.com/Glootea/gettextgocodegen/internal/parser"
+	"github.com/Glootea/gettextgocodegen/internal/validator"
 )
 
 type Generator struct {

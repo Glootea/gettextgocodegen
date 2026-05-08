@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gettextcodegen/internal/diff"
-	"github.com/gettextcodegen/internal/generator"
-	"github.com/gettextcodegen/internal/parser"
+	"github.com/Glootea/gettextgocodegen/internal/diff"
+	"github.com/Glootea/gettextgocodegen/internal/generator"
+	"github.com/Glootea/gettextgocodegen/internal/parser"
 )
 
 func main() {
