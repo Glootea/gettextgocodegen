@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Hello, world!"
+msgstr "Привет, мир!"
+
+msgid "Welcome to our app!"
+msgstr "Добро пожаловать в наше приложение!"
+
+msgid "Hi, my name is %s"
+msgstr "Привет, меня зовут %s"
+
+msgid "Get items count"
+msgid_plural "%d items"
+msgstr[0] "Один элемент"
+msgstr[1] "%d элементов"
+
+msgctxt "buttons"
+msgid "Submit"
+msgstr "Отправить"
+
+msgctxt "buttons"
+msgid "Cancel"
+msgstr "Отмена"
+
+msgctxt "errors"
+msgid "File not found"
+msgstr "Файл не найден"
+
+msgctxt "cart"
+msgid "Add to cart"
+msgstr "Добавить в корзину"
+
+msgctxt "cart"
+msgid "Total: %s"
+msgstr "Итого: %s"
