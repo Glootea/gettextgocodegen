@@ -36,3 +36,9 @@ msgstr "Add to cart"
 msgctxt "cart"
 msgid "Total: %s"
 msgstr "Total: %s"
+
+msgid "Hello world"
+msgstr "Hello world"
+
+msgid "Hello-world"
+msgstr "Hello-world"

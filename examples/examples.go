@@ -27,4 +27,8 @@ func main() {
 	fmt.Println(ru.GetItemsCount(1))
 	fmt.Println(ru.GetItemsCount(5))
 	fmt.Println(ru.CartTotal("100₽"))
+
+	fmt.Println("\n=== Conflict Test ===")
+	fmt.Println("HelloWorld:", en.HelloWorld())
+	fmt.Println("HelloWorld:", ru.HelloWorld())
 }

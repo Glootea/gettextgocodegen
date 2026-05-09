@@ -36,3 +36,9 @@ msgstr "Добавить в корзину"
 msgctxt "cart"
 msgid "Total: %s"
 msgstr "Итого: %s"
+
+msgid "Hello world"
+msgstr "Привет мир"
+
+msgid "Hello-world"
+msgstr "Привет мир"

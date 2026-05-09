@@ -27,13 +27,27 @@ type Method struct {
 }
 
 func (g *Generator) Generate() (string, error) {
+	identifierCache = make(map[*parser.POEntry]string)
+
+	sort.Slice(g.Entries, func(i, j int) bool {
+		identI := cachedIdentifier(g.Entries[i])
+		identJ := cachedIdentifier(g.Entries[j])
+		if identI != identJ {
+			return identI < identJ
+		}
+		if g.Entries[i].MsgCtx != g.Entries[j].MsgCtx {
+			return g.Entries[i].MsgCtx < g.Entries[j].MsgCtx
+		}
+		return g.Entries[i].MsgID < g.Entries[j].MsgID
+	})
+
 	var methods []Method
 	usedNames := make(map[string]bool)
 
 	for _, entry := range g.Entries {
-		ident, err := validator.ToValidIdentifier(entry.MsgID, entry.MsgCtx)
-		if err != nil {
-			fmt.Printf("Warning: skipping %q: %v\n", entry.MsgID, err)
+		ident := cachedIdentifier(entry)
+		if ident == "" {
+			fmt.Printf("Warning: skipping %q: cannot convert to valid identifier\n", entry.MsgID)
 			continue
 		}
 
@@ -47,11 +61,18 @@ func (g *Generator) Generate() (string, error) {
 		methods = append(methods, method)
 	}
 
-	sort.Slice(methods, func(i, j int) bool {
-		return methods[i].Name < methods[j].Name
-	})
-
 	return g.render(methods)
+}
+
+var identifierCache = make(map[*parser.POEntry]string)
+
+func cachedIdentifier(entry *parser.POEntry) string {
+	if ident, ok := identifierCache[entry]; ok {
+		return ident
+	}
+	ident, _ := validator.ToValidIdentifier(entry.MsgID, entry.MsgCtx)
+	identifierCache[entry] = ident
+	return ident
 }
 
 func (g *Generator) buildMethod(name string, entry *parser.POEntry) Method {

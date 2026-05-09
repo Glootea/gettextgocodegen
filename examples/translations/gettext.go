@@ -14,8 +14,8 @@ type Locale string
 
 const (
 	LocaleInvalid Locale = ""
-	LocaleEnUS Locale = "en_US"
-	LocaleRuRU Locale = "ru_RU"
+	LocaleEnUS    Locale = "en_US"
+	LocaleRuRU    Locale = "ru_RU"
 )
 
 type Translator interface {
@@ -31,7 +31,7 @@ type Translator interface {
 	ErrorsFileNotFound() string
 	// "Get items count"
 	GetItemsCount(n int) string
-	// "Hello, world!"
+	// "Hello world"
 	HelloWorld() string
 	// "Hi, my name is %s"
 	HiMyNameIs(param1 string) string
@@ -79,7 +79,7 @@ func (t *translator) GetItemsCount(n int) string {
 }
 
 func (t *translator) HelloWorld() string {
-	return t.locale.Get("Hello, world!")
+	return t.locale.Get("Hello world")
 }
 
 func (t *translator) HiMyNameIs(param1 string) string {
@@ -89,4 +89,3 @@ func (t *translator) HiMyNameIs(param1 string) string {
 func (t *translator) WelcomeToOurApp() string {
 	return t.locale.Get("Welcome to our app!")
 }
-
