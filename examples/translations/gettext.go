@@ -14,8 +14,8 @@ type Locale string
 
 const (
 	LocaleInvalid Locale = ""
-	LocaleEnUS    Locale = "en_US"
-	LocaleRuRU    Locale = "ru_RU"
+	LocaleEnUS Locale = "en_US"
+	LocaleRuRU Locale = "ru_RU"
 )
 
 type Translator interface {
@@ -89,3 +89,4 @@ func (t *translator) HiMyNameIs(param1 string) string {
 func (t *translator) WelcomeToOurApp() string {
 	return t.locale.Get("Welcome to our app!")
 }
+
